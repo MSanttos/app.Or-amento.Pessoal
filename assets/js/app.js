@@ -43,6 +43,25 @@ class DB{
     localStorage.setItem('id', id)
     
   }
+
+  recuperarTodosRegistros(){
+    //array de despesas
+    let despesas = []
+    //alert('chegamos aqui')
+    let id = localStorage.getItem('id')
+    //recuperar despesas armazenadas no localStorage
+    for(let i = 1; i <= id; i++) {
+      //recupera despesas
+      let despesa = JSON.parse(localStorage.getItem(i))
+      //existe possibilidade de índices removido
+      if(despesa === null) {
+        continue
+      }
+      despesas.push(despesa)
+    }
+    //console.log(despesas)
+    return despesas
+  }
 }
 //instanciar classe
 let db = new DB()
@@ -67,7 +86,9 @@ function cadastrarDespesa(){
   )
 
   if(despesa.validarDados()){
-    //db.gravar(despesa)
+
+    db.gravar(despesa)
+
     $('#registraDespesa').modal('show')
     document.getElementById('modal-titulo-div').className = 'modal-header text-success'
     document.getElementById('modal-titulo-h5').innerHTML = 'Registro realizado com sucesso.'
@@ -83,3 +104,50 @@ function cadastrarDespesa(){
     document.getElementById('modal-button').innerHTML = 'Voltar e corrigir'
   }
 }
+
+function carregaListaDespesa(){
+
+  let despesas = []
+
+  despesas = db.recuperarTodosRegistros()
+  //console.log(despesas)
+
+  //seleciona o elemento tbody da tabela
+  let listaDespesas = document.getElementById('listaDespesas')
+  //percorrer arrya listando despesas de forma dinâmica
+  despesas.forEach((paramDespesa) => {
+    //console.log(paramDespesa)
+    
+    let linhas = listaDespesas.insertRow(paramDespesa) //criando linhas(tr)
+    
+    linhas.insertCell().innerHTML = `${paramDespesa.dia}/${paramDespesa.mes}/${paramDespesa.ano}` //criando (td)
+    //ajustar tipo conversão de númeral para literal
+    switch (paramDespesa.tipo){
+      case '1': paramDespesa.tipo = 'Alimentação'
+        break
+      case '2': paramDespesa.tipo = 'Educação'
+        break
+      case '3': paramDespesa.tipo = 'Lazer'
+        break
+      case '4': paramDespesa.tipo = 'Saúde'
+        break
+      case '5': paramDespesa.tipo = 'Transporte'
+        break
+    }
+    linhas.insertCell().innerHTML = `${paramDespesa.tipo}` //criando (td)
+    linhas.insertCell().innerHTML = paramDespesa.descricao //criando (td)
+    linhas.insertCell().innerHTML = paramDespesa.valor //criando (td)
+  })
+}
+
+/*----------------------Comparação----------------------*/
+//isto:
+//    despesas.forEach((paramDespesa) => {
+//      console.log(paramDespesa)
+//    })
+
+//é igual a isto
+//    despesas.forEach(function(paramDespesa) {
+//      console.log(paramDespesa)
+//    })
+/*-------------------------------------------------------*/

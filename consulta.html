@@ -14,7 +14,7 @@
 
 <title>Orçamento pessoal</title>
 </head>
-<body>
+<body onload="carregaListaDespesa()">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
     <div class="container">
@@ -117,7 +117,8 @@
             </tr>
           </thead>
 
-          <tbody>
+          <tbody id="listaDespesas">
+            
           </tbody>
         </table>
       </div>
