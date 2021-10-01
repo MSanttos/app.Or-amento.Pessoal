@@ -95,6 +95,15 @@ function cadastrarDespesa(){
     document.getElementById('modal-conteudo').innerHTML = '✔️ Despesa inserida com sucesso!'
     document.getElementById('modal-button').className = 'btn btn-primary'
     document.getElementById('modal-button').innerHTML = 'Voltar'
+
+    //limpa campos após inserção
+    ano.value = ''
+    mes.value = ''
+    dia.value = ''
+    tipo.value = ''
+    descricao.value = ''
+    valor.value = ''
+
   } else {
     $('#registraDespesa').modal('show')
     document.getElementById('modal-titulo-div').className = 'modal-header text-danger'
