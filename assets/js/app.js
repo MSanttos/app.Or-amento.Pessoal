@@ -7,9 +7,19 @@ class Despesa{
     this.descricao = descricao
     this.valor = valor
   }
+
+  validarDados(){
+    for(let i in this){
+      // console.log(i, this[i])
+      if(this[i] == undefined || this[i] == null || this[i] == ''){
+        return false
+      }
+    }
+    return true
+  }
 }
 
-class BancoDados{
+class DB{
 
   constructor(){
     let id = localStorage.getItem('id')
@@ -20,7 +30,7 @@ class BancoDados{
   }
 
   getProximoId(){
-    let proximoId = localStorage.getItem('id')//null
+    let proximoId = localStorage.getItem('id')
     return parseInt(proximoId) + 1
   }
 
@@ -35,7 +45,7 @@ class BancoDados{
   }
 }
 //instanciar classe
-let bancodados = new BancoDados()
+let db = new DB()
 
 function cadastrarDespesa(){
   let ano = document.getElementById('ano')
@@ -55,5 +65,14 @@ function cadastrarDespesa(){
     descricao.value,
     valor.value
   )
-  bancodados.gravar(despesa)
+  if(despesa.validarDados()){
+    db.gravar(despesa)
+    //dialog Success
+    $('#sucessoGravacao').modal('show')
+    //console.log('Status: 200 Success ✔️')
+  }else{
+    //console.log('Error: 404 Not Found ❌')
+    $('#erroGravacao').modal('show')
+  }
+  
 }
