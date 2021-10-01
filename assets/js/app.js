@@ -65,14 +65,21 @@ function cadastrarDespesa(){
     descricao.value,
     valor.value
   )
+
   if(despesa.validarDados()){
-    db.gravar(despesa)
-    //dialog Success
-    $('#sucessoGravacao').modal('show')
-    //console.log('Status: 200 Success ✔️')
-  }else{
-    //console.log('Error: 404 Not Found ❌')
-    $('#erroGravacao').modal('show')
+    //db.gravar(despesa)
+    $('#registraDespesa').modal('show')
+    document.getElementById('modal-titulo-div').className = 'modal-header text-success'
+    document.getElementById('modal-titulo-h5').innerHTML = 'Registro realizado com sucesso.'
+    document.getElementById('modal-conteudo').innerHTML = '✔️ Despesa inserida com sucesso!'
+    document.getElementById('modal-button').className = 'btn btn-primary'
+    document.getElementById('modal-button').innerHTML = 'Voltar'
+  } else {
+    $('#registraDespesa').modal('show')
+    document.getElementById('modal-titulo-div').className = 'modal-header text-danger'
+    document.getElementById('modal-titulo-h5').innerHTML = 'Erro na gravação dos dados.'
+    document.getElementById('modal-conteudo').innerHTML = '❌ Existem campos obrigatórios que não foram preenchidos.'
+    document.getElementById('modal-button').className = 'btn btn-danger'
+    document.getElementById('modal-button').innerHTML = 'Voltar e corrigir'
   }
-  
 }
