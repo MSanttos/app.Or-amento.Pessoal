@@ -62,6 +62,46 @@ class DB{
     //console.log(despesas)
     return despesas
   }
+  pesquisar(despesa) {
+
+    let despesasFiltradas = []
+    despesasFiltradas = this.recuperarTodosRegistros()
+
+    console.log(despesa)
+    console.log(despesasFiltradas)
+
+    //ano
+    if(despesa.dia != ''){
+      console.log('dia')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.dia == despesa.dia)
+    }
+    //mes
+    if(despesa.mes != ''){
+      console.log('mes')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.mes == despesa.mes)
+    }
+    //dia
+    if(despesa.ano != ''){
+      console.log('ano')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.ano == despesa.ano)
+    }
+    //tipo
+    if(despesa.tipo != ''){
+      console.log('tipo')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.tipo == despesa.tipo)
+    }
+    //descricao
+    if(despesa.descricao != ''){
+      console.log('descricao')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.descricao == despesa.descricao)
+    }
+    //valor
+    if(despesa.valor != ''){
+      console.log('valor')
+      despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.valor == despesa.valor)
+    }
+    return despesasFiltradas
+  } 
 }
 //instanciar classe
 let db = new DB()
@@ -114,15 +154,14 @@ function cadastrarDespesa(){
   }
 }
 
-function carregaListaDespesa(){
+function carregaListaDespesa(despesas = [], filter = false) {
 
-  let despesas = []
-
-  despesas = db.recuperarTodosRegistros()
-  //console.log(despesas)
-
+  if(despesas.length == 0 && filter == false) {
+    despesas = db.recuperarTodosRegistros()
+  }
   //seleciona o elemento tbody da tabela
   let listaDespesas = document.getElementById('listaDespesas')
+  listaDespesas.innerHTML = ''
   //percorrer arrya listando despesas de forma dinâmica
   despesas.forEach((paramDespesa) => {
     //console.log(paramDespesa)
@@ -160,3 +199,18 @@ function carregaListaDespesa(){
 //      console.log(paramDespesa)
 //    })
 /*-------------------------------------------------------*/
+
+function pesquisarDespesa(){
+  let ano = document.getElementById('ano').value
+  let mes = document.getElementById('mes').value
+  let dia = document.getElementById('dia').value
+  let tipo = document.getElementById('tipo').value
+  let descricao = document.getElementById('descricao').value
+  let valor = document.getElementById('valor').value
+
+  let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
+
+  let despesas = db.pesquisar(despesa)
+
+  this.carregaListaDespesa(despesas, true)
+}
