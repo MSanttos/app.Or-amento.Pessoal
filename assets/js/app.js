@@ -57,6 +57,7 @@ class DB{
       if(despesa === null) {
         continue
       }
+      despesa.id = i
       despesas.push(despesa)
     }
     //console.log(despesas)
@@ -101,6 +102,9 @@ class DB{
       despesasFiltradas = despesasFiltradas.filter(paramIndice => paramIndice.valor == despesa.valor)
     }
     return despesasFiltradas
+  }
+  remover(id){
+    localStorage.removeItem(id)
   } 
 }
 //instanciar classe
@@ -185,6 +189,22 @@ function carregaListaDespesa(despesas = [], filter = false) {
     linhas.insertCell().innerHTML = `${paramDespesa.tipo}` //criando (td)
     linhas.insertCell().innerHTML = paramDespesa.descricao //criando (td)
     linhas.insertCell().innerHTML = paramDespesa.valor //criando (td)
+    //botão exclusão
+    let button = document.createElement('button')
+    button.className = 'btn btn-danger'//estilizando button
+    button.innerHTML = '<i class="fa fa-times"></i>'
+    button.id = `id_despesa_ ${paramDespesa.id}`
+    button.onclick = function() {
+     //alert(this.id)//this.id recupera o procpio di selecionado
+      let id = this.id.replace('id_despesa_', '')
+      //alert(id)
+      db.remover(paramDespesa.id)
+
+      window.location.reload()
+
+    }//adicionando icon no button
+    linhas.insertCell().append(button) //criando (botão excluir)
+    console.log(paramDespesa)
   })
 }
 
